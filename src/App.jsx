@@ -3,6 +3,7 @@ import { useState } from "react";
 import Auth from "./Auth";
 import "./App.css";
 
+const API_URL = "https://memora-digital-diary.onrender.com";
 
 function MoodIcon({ name, size = 38 }) {
   const common = {
@@ -87,56 +88,57 @@ function App() {
   const [editMood, setEditMood] = useState("😊");
   const [editImage, setEditImage] = useState("");
 
- const moods = [
-  {
-    emoji: "😊",
-    name: "Happy",
-    color: "#fff0c9",
-    message: "Keep smiling! Your happiness makes ordinary moments beautiful. 💛"
-  },
-  {
-    emoji: "🥰",
-    name: "Loved",
-    color: "#ffe1ed",
-    message: "You deserve love, kindness, and all the little things that make you feel special. 💗"
-  },
-  {
-    emoji: "🥺",
-    name: "Sad",
-    color: "#e2eaff",
-    message: "It's okay not to be okay. Take a deep breath. You don't have to figure everything out today. 🌷"
-  },
-  {
-    emoji: "😡",
-    name: "Angry",
-    color: "#ffe1df",
-    message: "Pause, breathe, and give yourself some space. Your feelings matter, but you deserve peace too. ❤️"
-  },
-  {
-    emoji: "😴",
-    name: "Tired",
-    color: "#e9e1ff",
-    message: "Rest is productive too. Take a break and remember that you don't have to do everything at once. 🌙"
-  },
-  {
-    emoji: "😍",
-    name: "Excited",
-    color: "#ffe8d6",
-    message: "Enjoy this beautiful energy! Let yourself celebrate the little things. ✨"
-  },
-  {
-    emoji: "😌",
-    name: "Calm",
-    color: "#e2f3e9",
-    message: "Enjoy this peaceful moment. You deserve time to breathe and feel at ease. 🌿"
-  },
- {
-  name: "Anxious",
-  emoji: "😟",
-  color: "#e8d8f5",
-  message: "Take a deep breath. You are safe."
-}
-];
+  const moods = [
+    {
+      emoji: "😊",
+      name: "Happy",
+      color: "#fff0c9",
+      message: "Keep smiling! Your happiness makes ordinary moments beautiful. 💛"
+    },
+    {
+      emoji: "🥰",
+      name: "Loved",
+      color: "#ffe1ed",
+      message: "You deserve love, kindness, and all the little things that make you feel special. 💗"
+    },
+    {
+      emoji: "🥺",
+      name: "Sad",
+      color: "#e2eaff",
+      message: "It's okay not to be okay. Take a deep breath. You don't have to figure everything out today. 🌷"
+    },
+    {
+      emoji: "😡",
+      name: "Angry",
+      color: "#ffe1df",
+      message: "Pause, breathe, and give yourself some space. Your feelings matter, but you deserve peace too. ❤️"
+    },
+    {
+      emoji: "😴",
+      name: "Tired",
+      color: "#e9e1ff",
+      message: "Rest is productive too. Take a break and remember that you don't have to do everything at once. 🌙"
+    },
+    {
+      emoji: "😍",
+      name: "Excited",
+      color: "#ffe8d6",
+      message: "Enjoy this beautiful energy! Let yourself celebrate the little things. ✨"
+    },
+    {
+      emoji: "😌",
+      name: "Calm",
+      color: "#e2f3e9",
+      message: "Enjoy this peaceful moment. You deserve time to breathe and feel at ease. 🌿"
+    },
+    {
+      name: "Anxious",
+      emoji: "😟",
+      color: "#e8d8f5",
+      message: "Take a deep breath. You are safe."
+    }
+  ];
+
   const selectedMood = moods.find((item) => item.emoji === mood) || moods[0];
 
   const formatDate = (date) => {
@@ -189,8 +191,8 @@ function App() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("https://memora-digital-diary.onrender.com/api/memories", {
-  headers: {
+      const response = await fetch(`${API_URL}/api/memories`, {
+        headers: {
           Authorization: `Bearer ${token}`
         }
       });
@@ -236,7 +238,7 @@ function App() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/memories", {
+      const response = await fetch(`${API_URL}/api/memories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -282,7 +284,7 @@ function App() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/memories", {
+      const response = await fetch(`${API_URL}/api/memories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -338,22 +340,19 @@ function App() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `http://localhost:5000/api/memories/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            text: editText,
-            date: editDate,
-            mood: editMood,
-            image: editImage
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/api/memories/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          text: editText,
+          date: editDate,
+          mood: editMood,
+          image: editImage
+        })
+      });
 
       const data = await response.json();
 
@@ -383,19 +382,16 @@ function App() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `http://localhost:5000/api/memories/${memory.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            isFavorite: !memory.isFavorite
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/api/memories/${memory.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          isFavorite: !memory.isFavorite
+        })
+      });
 
       const data = await response.json();
 
@@ -427,15 +423,12 @@ function App() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        `http://localhost:5000/api/memories/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      const response = await fetch(`${API_URL}/api/memories/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
 
       const data = await response.json();
 
@@ -524,9 +517,9 @@ function App() {
                 style={{ backgroundColor: item.color }}
                 onClick={() => setEditMood(item.emoji)}
               >
-               <span className="mood-icon">
-  <MoodIcon name={item.name} />
-</span>
+                <span className="mood-icon">
+                  <MoodIcon name={item.name} />
+                </span>
                 <p>{item.name}</p>
               </button>
             ))}
@@ -942,8 +935,8 @@ function App() {
               <div className="mood-result">
                 <h3>Today's mood</h3>
                 <div className="mood-result-icon">
-  <MoodIcon name={selectedMood.name} size={58} />
-</div>
+                  <MoodIcon name={selectedMood.name} size={58} />
+                </div>
                 <h3>{selectedMood.name}</h3>
                 <p>{selectedMood.message}</p>
                 <button className="primary-action" onClick={saveMood} disabled={saving}>
@@ -974,11 +967,11 @@ function App() {
                 moodHistory.map((entry) => (
                   <div className="mood-history-item" key={entry.id}>
                     <span className="mood-icon">
-  <MoodIcon
-    name={moods.find((item) => item.emoji === entry.mood)?.name || "Happy"}
-    size={32}
-  />
-</span>
+                      <MoodIcon
+                        name={moods.find((item) => item.emoji === entry.mood)?.name || "Happy"}
+                        size={32}
+                      />
+                    </span>
                     <div>
                       <strong>{entry.text.replace("Mood check-in: ", "")}</strong>
                       <p>{formatDate(entry.date)}</p>
