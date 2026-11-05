@@ -6,7 +6,7 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-// Register API
+// Register
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -35,14 +35,19 @@ router.post("/register", async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({ message: "Registration failed" });
+    console.error("REGISTER ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Login API
+// Login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
     const user = await User.findOne({ email });
 
@@ -69,7 +74,8 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({ message: "Login failed" });
+    console.error("LOGIN ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
