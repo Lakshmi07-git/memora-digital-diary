@@ -189,8 +189,8 @@ function App() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5000/api/memories", {
-        headers: {
+      const response = await fetch("https://memora-digital-diary.onrender.com/api/memories", {
+  headers: {
           Authorization: `Bearer ${token}`
         }
       });

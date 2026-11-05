@@ -17,8 +17,8 @@ function Auth({ onLogin }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/auth/${isRegister ? "register" : "login"}`,
-        {
+  `https://memora-digital-diary.onrender.com/api/auth/${isRegister ? "register" : "login"}`,
+  {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, password })
